@@ -23,6 +23,8 @@ jobs:
     timeout-minutes: 90
     env:
       NODE_VERSION: '20'
+      SENTRY_DISABLE_AUTO_UPLOAD: '1'
+      SENTRY_AUTH_TOKEN: ''
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -73,6 +75,9 @@ jobs:
 
       - name: xcodebuild archive (CODE_SIGNING_ALLOWED=NO -> unsigned)
         working-directory: ${{ env.SRC_DIR }}
+        env:
+          SENTRY_DISABLE_AUTO_UPLOAD: '1'
+          SENTRY_AUTH_TOKEN: ''
         run: |
           xcodebuild -workspace ios/SmartWhale.xcworkspace \
             -scheme SmartWhale \
