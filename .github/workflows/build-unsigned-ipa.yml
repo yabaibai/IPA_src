@@ -99,6 +99,17 @@ jobs:
           echo "app: $APP_PATH"
           rm -rf build/ipa && mkdir -p build/ipa/Payload
           cp -R "$APP_PATH" build/ipa/Payload/
+          APP_IN_PAYLOAD=$(find build/ipa/Payload -maxdepth 1 -name '*.app' | head -1)
+          # 关键: 清掉 Expo 预构建注入的 entitlements (aps-environment / application-groups /
+          # keychain-access-groups 等), 这些会导致重签后 iOS 启动校验失败闪退。
+          # 直连 Supabase 不依赖这些权限, 移除后全能签等工具可正常重签安装。
+          if [ -f "$APP_IN_PAYLOAD/Entitlements.plist" ]; then
+            rm -f "$APP_IN_PAYLOAD/Entitlements.plist"
+            echo "removed Entitlements.plist"
+          fi
+          # 同时清掉可能残留的 embedded provisioning / 旧签名痕迹
+          rm -f "$APP_IN_PAYLOAD/embedded.mobileprovision" 2>/dev/null || true
+          rm -rf "$APP_IN_PAYLOAD/_CodeSignature" 2>/dev/null || true
           cd build/ipa
           # 未签名 IPA = Payload/<app>.app 直接 zip，不涉及任何签名/team
           zip -r -q SmartWhale-unsigned.ipa Payload
