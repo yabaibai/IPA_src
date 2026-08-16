@@ -90,33 +90,26 @@ jobs:
             -destination 'generic/platform=iOS' \
             archive
 
-      - name: Export unsigned IPA
+      - name: Package unsigned IPA (no exportArchive, no signing/team needed)
         working-directory: ${{ env.SRC_DIR }}
         run: |
-          mkdir -p build/ipa
-          cat > ExportOptions.plist << 'EOF'
-          <?xml version="1.0" encoding="UTF-8"?>
-          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-          <plist version="1.0">
-          <dict>
-            <key>method</key><string>development</string>
-            <key>signingStyle</key><string>manual</string>
-            <key>signingCertificate</key><string></string>
-            <key>stripSwiftSymbols</key><true/>
-          </dict>
-          </plist>
-          EOF
-          xcodebuild -exportArchive \
-            -archivePath build/SmartWhale.xcarchive \
-            -exportPath build/ipa \
-            -exportOptionsPlist ExportOptions.plist
-          ls -lh build/ipa/
+          set -e
+          APP_PATH=$(find build/SmartWhale.xcarchive/Products/Applications -maxdepth 1 -name '*.app' | head -1)
+          if [ -z "$APP_PATH" ]; then echo 'app not found in xcarchive'; exit 1; fi
+          echo "app: $APP_PATH"
+          rm -rf build/ipa && mkdir -p build/ipa/Payload
+          cp -R "$APP_PATH" build/ipa/Payload/
+          cd build/ipa
+          # 未签名 IPA = Payload/<app>.app 直接 zip，不涉及任何签名/team
+          zip -r -q SmartWhale-unsigned.ipa Payload
+          cd -
+          ls -lh build/ipa/SmartWhale-unsigned.ipa
 
       - name: Upload unsigned IPA artifact
         uses: actions/upload-artifact@v4
         with:
           name: SmartWhale-unsigned-ipa
-          path: ${{ env.SRC_DIR }}/build/ipa/*.ipa
+          path: ${{ env.SRC_DIR }}/build/ipa/SmartWhale-unsigned.ipa
           retention-days: 30
 
 # ============================================================================
