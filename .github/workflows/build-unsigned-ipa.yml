@@ -56,8 +56,15 @@ jobs:
         env:
           EXPO_NO_LOGIN: "1"
           CI: "1"
+          EXPO_CACHE_DIR: "/tmp/expo-cache"
         run: |
-          pnpm exec expo prebuild --platform ios --no-install --non-interactive
+          pnpm exec expo prebuild --platform ios --non-interactive
+
+      - name: Verify ios project generated
+        working-directory: ${{ env.SRC_DIR }}
+        run: |
+          ls -la ios/ || (echo "ios/ missing, prebuild failed"; exit 1)
+          ls ios/*.xcworkspace || (echo "xcworkspace missing"; exit 1)
 
       - name: Strip Sentry dSYM upload phase (CI does not need it)
         working-directory: ${{ env.SRC_DIR }}
