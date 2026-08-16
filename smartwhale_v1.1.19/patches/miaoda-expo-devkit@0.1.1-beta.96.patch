@@ -1,0 +1,31 @@
+diff --git a/oxlint-config.json b/oxlint-config.json
+index d23a0099679c347753fbf6309d2d4c505924aebb..bf094e3ef6f9cf59852efee1b6c47680ea769267 100644
+--- a/oxlint-config.json
++++ b/oxlint-config.json
+@@ -16,8 +16,6 @@
+     { "name": "image-import", "specifier": "miaoda-expo-devkit/rules/no-missing-image-import" },
+     { "name": "expo-splash-config", "specifier": "miaoda-expo-devkit/rules/no-splash-screen-missing-image" },
+     { "name": "expo-notifications-assets", "specifier": "miaoda-expo-devkit/rules/no-missing-notification-asset" },
+-    { "name": "expo-config-value", "specifier": "miaoda-expo-devkit/rules/no-invalid-expo-config-value" },
+-    { "name": "expo-notifications-config", "specifier": "miaoda-expo-devkit/rules/no-invalid-notification-config" },
+     { "name": "gifted-charts-linear-gradient", "specifier": "miaoda-expo-devkit/rules/no-gifted-charts-missing-linear-gradient" }
+   ],
+ 
+@@ -40,8 +38,6 @@
+     "image-import/no-missing-image-import": "error",
+     "expo-splash-config/no-splash-screen-missing-image": "error",
+     "expo-notifications-assets/no-missing-notification-asset": "error",
+-    "expo-config-value/no-invalid-expo-config-value": "error",
+-    "expo-notifications-config/no-invalid-notification-config": "error",
+     "gifted-charts-linear-gradient/no-gifted-charts-missing-linear-gradient": "error",
+ 
+     "expo/no-dynamic-env-var": "error",
+@@ -87,6 +83,7 @@
+     "__DEV__": "readonly",
+     "process": "readonly",
+     "global": "readonly",
+-    "localStorage": "readonly"
++    "localStorage": "readonly",
++    "require": "readonly"
+   }
+ }

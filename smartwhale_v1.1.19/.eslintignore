@@ -1,0 +1,9 @@
+# 排除测试目录，避免 Jest 全局变量触发 no-undef 误报
+__tests__/
+# Jest 配置文件使用 CommonJS module.exports，排除 no-undef 误报
+jest.config.js
+# 排除 Web 静态资源，避免 minified 第三方脚本触发 lint 误报
+public/
+# 排除 Spine 动画资源（第三方 minified 脚本）
+assets/spine7/
+assets/spine_choujiang/

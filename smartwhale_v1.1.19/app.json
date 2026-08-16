@@ -1,0 +1,95 @@
+{
+  "expo": {
+    "name": "SmartWhale",
+    "slug": "smartwhale",
+    "version": "1.1.19",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "supportsTablet": true,
+      "buildNumber": "21",
+      "bundleIdentifier": "com.smartwhale.appmartwhale"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#000000",
+        "foregroundImage": "./assets/adaptive-icon.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "softwareKeyboardLayoutMode": "pan",
+      "versionCode": 21,
+      "package": "com.smartwhale.appmartwhale",
+      "permissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+        "android.permission.ACCESS_MEDIA_LOCATION",
+        "android.permission.READ_MEDIA_IMAGES",
+        "android.permission.READ_MEDIA_VIDEO",
+        "android.permission.READ_MEDIA_AUDIO",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.INTERNET"
+      ]
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#00000000",
+      "translucent": true
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/favicon.png",
+      "title": "SmartWhale"
+    },
+    "plugins": [
+      "@sentry/react-native",
+      "expo-router",
+      "expo-asset",
+      "expo-sqlite",
+      "expo-font",
+      [
+        "expo-system-ui",
+        {
+          "style": "dark",
+          "backgroundColor": "#000000"
+        }
+      ],
+      "expo-navigation-bar",
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "需要访问相册以保存推广海报",
+          "savePhotosPermission": "需要保存图片权限以保存推广海报",
+          "isAccessMediaLocationEnabled": true
+        }
+      ],
+      "expo-image",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "需要访问相册以选择收款码图片",
+          "cameraPermission": "需要访问相机以拍摄收款码图片"
+        }
+      ],
+      "expo-file-system",
+      "expo-secure-store",
+      "expo-web-browser",
+      "@react-native-async-storage/expo-with-async-storage"
+    ],
+    "router": {
+      "root": "src"
+    },
+    "experiments": {
+      "typedRoutes": true
+    },
+    "scheme": "com.smartwhale.appmartwhale",
+    "extra": {
+      "router": {},
+      "expo-navigation-bar": {},
+      "eas": {
+        "projectId": "1f5c9f30-af5a-4614-8817-a31e2e22052d"
+      }
+    },
+    "owner": "jason111101"
+  }
+}

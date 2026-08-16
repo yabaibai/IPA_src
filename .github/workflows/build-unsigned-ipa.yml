@@ -1,0 +1,114 @@
+# ============================================================================
+# GitHub Actions: 构建并输出【未签名 unsigned】IPA 包 (Expo + xcodebuild)
+# 适用: SmartWhale (Expo managed) iOS 构建
+# 说明:
+#   - 用 GitHub macOS runner (自带 Xcode) 出未签名 IPA
+#   - 未签名 IPA 不能直接装真机, 仅用于 CI 归档 / 后续用证书再签
+#   - 证书不要入仓; 本流程不依赖 EXPO_TOKEN (EXPO_NO_LOGIN=1 离线 prebuild)
+# ============================================================================
+
+name: Build Unsigned IPA (iOS)
+
+on:
+  workflow_dispatch:        # 手动触发
+  push:
+    branches: [ main ]
+    paths:
+      - 'smartwhale_v1.1.19/**'
+      - '.github/workflows/build-unsigned-ipa.yml'
+
+jobs:
+  build-unsigned-ipa:
+    runs-on: macos-latest
+    timeout-minutes: 90
+    env:
+      NODE_VERSION: '20'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 仅取出 iOS 源码包内目录(若直接放仓库根则用 ./ )
+      - name: Extract iOS source
+        run: |
+          if [ -f smartwhale_v1.1.19_src_ios_20260816.tar.gz ]; then
+            tar -xzf smartwhale_v1.1.19_src_ios_20260816.tar.gz
+            echo "SRC_DIR=smartwhale_v1.1.19" >> "$GITHUB_ENV"
+          else
+            echo "SRC_DIR=." >> "$GITHUB_ENV"
+          fi
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install dependencies (no frozen lockfile; offline expo)
+        working-directory: ${{ env.SRC_DIR }}
+        env:
+          EXPO_NO_LOGIN: "1"
+          EXPO_OFFLINE: "1"
+        run: |
+          pnpm install --no-frozen-lockfile
+          npm install -g expo-cli eas-cli
+
+      - name: Expo prebuild (unsigned, offline, no login)
+        working-directory: ${{ env.SRC_DIR }}
+        env:
+          EXPO_NO_LOGIN: "1"
+          CI: "1"
+        run: |
+          npx expo prebuild --platform ios --no-install --non-interactive
+
+      - name: xcodebuild archive (CODE_SIGNING_ALLOWED=NO -> unsigned)
+        working-directory: ${{ env.SRC_DIR }}
+        run: |
+          xcodebuild -workspace ios/SmartWhale.xcworkspace \
+            -scheme SmartWhale \
+            -configuration Release \
+            -archivePath build/SmartWhale.xcarchive \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            archive
+
+      - name: Export unsigned IPA
+        working-directory: ${{ env.SRC_DIR }}
+        run: |
+          mkdir -p build/ipa
+          cat > ExportOptions.plist << 'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key><string>development</string>
+            <key>signingStyle</key><string>manual</string>
+            <key>signingCertificate</key><string></string>
+            <key>stripSwiftSymbols</key><true/>
+          </dict>
+          </plist>
+          EOF
+          xcodebuild -exportArchive \
+            -archivePath build/SmartWhale.xcarchive \
+            -exportPath build/ipa \
+            -exportOptionsPlist ExportOptions.plist
+          ls -lh build/ipa/
+
+      - name: Upload unsigned IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SmartWhale-unsigned-ipa
+          path: ${{ env.SRC_DIR }}/build/ipa/*.ipa
+          retention-days: 30
+
+# ============================================================================
+# 使用说明:
+#   1. 本文件位于 .github/workflows/build-unsigned-ipa.yml
+#   2. 无需 EXPO_TOKEN: 已设 EXPO_NO_LOGIN=1 + --no-install 离线 prebuild
+#   3. 触发: 手动 Actions 页 Run, 或 push 到 main 且 ios 源码目录变动
+#   4. 产物: Actions > Artifacts > SmartWhale-unsigned-ipa (未签名 IPA)
+# ============================================================================

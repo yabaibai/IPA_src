@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* 深炭灰主题 - SmartWhale 爱马仕橙配色 */
+    --background: 0 0% 7%;           /* #111111 深炭灰背景 */
+    --foreground: 210 40% 98%;
+    --card: 0 0% 12%;                /* #1E1E1E 炭灰卡片 */
+    --card-foreground: 210 40% 98%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 239 84% 67%;          /* #6366F1 Indigo */
+    --primary-foreground: 210 40% 98%;
+    --secondary: 258 88% 66%;        /* #8B5CF6 Violet */
+    --secondary-foreground: 210 40% 98%;
+    --muted: 0 0% 15%;               /* #262626 */
+    --muted-foreground: 215 20% 55%;
+    --accent: 258 88% 66%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 350 90% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 0 0% 18%;              /* #2E2E2E 炭灰描边 */
+    --input: 0 0% 18%;
+    --ring: 239 84% 67%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 7%;
+    --foreground: 210 40% 98%;
+    --card: 0 0% 12%;
+    --card-foreground: 210 40% 98%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 239 84% 67%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 258 88% 66%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 215 20% 55%;
+    --accent: 258 88% 66%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 350 90% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 239 84% 67%;
+  }
+}

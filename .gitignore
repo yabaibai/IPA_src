@@ -1,0 +1,23 @@
+# 密钥/凭据绝不入仓
+.env
+.env.*
+*.jks
+credentials.json
+*.key
+*.pem
+secrets/
+
+# 依赖与构建产物
+node_modules/
+ios/
+android/
+build/
+
+# 系统/缓存
+.DS_Store
+.expo/
+.metro-cache/
+__pycache__/
+*.pyc
+
+# 注意: supabase/ docs/ scripts/ __tests__/ 已被清理, 不应存在

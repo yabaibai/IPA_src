@@ -1,0 +1,141 @@
+{
+  "plugins": [
+    "typescript",
+    "react"
+  ],
+  "jsPlugins": [
+    "eslint-plugin-expo",
+    {
+      "name": "expo-config-plugin",
+      "specifier": "miaoda-expo-devkit/rules/no-undeclared-expo-plugin"
+    },
+    {
+      "name": "expo-router",
+      "specifier": "miaoda-expo-devkit/rules/no-unstable-expo-router"
+    },
+    {
+      "name": "rn-web",
+      "specifier": "miaoda-expo-devkit/rules/no-rn-alert"
+    },
+    {
+      "name": "expo-router-url",
+      "specifier": "miaoda-expo-devkit/rules/no-duplicate-expo-router-url"
+    },
+    {
+      "name": "css-import",
+      "specifier": "miaoda-expo-devkit/rules/no-missing-css-import"
+    },
+    {
+      "name": "expo-router-layout",
+      "specifier": "miaoda-expo-devkit/rules/no-invalid-tabs-screen"
+    },
+    {
+      "name": "expo-router-dynamic-tab",
+      "specifier": "miaoda-expo-devkit/rules/no-unregistered-dynamic-tab-route"
+    },
+    {
+      "name": "rn-pressable",
+      "specifier": "miaoda-expo-devkit/rules/no-pressable-without-on-press"
+    },
+    {
+      "name": "expo-video-compat",
+      "specifier": "miaoda-expo-devkit/rules/no-expo-video-compat"
+    },
+    {
+      "name": "rn-pressable-style",
+      "specifier": "miaoda-expo-devkit/rules/no-pressable-function-style"
+    },
+    {
+      "name": "expo-unused-config-plugin",
+      "specifier": "miaoda-expo-devkit/rules/no-unused-expo-plugin"
+    },
+    {
+      "name": "image-import",
+      "specifier": "miaoda-expo-devkit/rules/no-missing-image-import"
+    },
+    {
+      "name": "expo-splash-config",
+      "specifier": "miaoda-expo-devkit/rules/no-splash-screen-missing-image"
+    },
+    {
+      "name": "expo-notifications-assets",
+      "specifier": "miaoda-expo-devkit/rules/no-missing-notification-asset"
+    },
+    {
+      "name": "expo-config-value",
+      "specifier": "miaoda-expo-devkit/rules/no-invalid-expo-config-value"
+    },
+    {
+      "name": "expo-notifications-config",
+      "specifier": "miaoda-expo-devkit/rules/no-invalid-notification-config"
+    },
+    {
+      "name": "gifted-charts-linear-gradient",
+      "specifier": "miaoda-expo-devkit/rules/no-gifted-charts-missing-linear-gradient"
+    }
+  ],
+  "categories": {
+    "correctness": "allow"
+  },
+  "rules": {
+    "expo-config-plugin/no-undeclared-expo-plugin": "error",
+    "expo-router/no-unstable-expo-router": "error",
+    "rn-web/no-rn-alert": "error",
+    "expo-router-url/no-duplicate-expo-router-url": "error",
+    "css-import/no-missing-css-import": "error",
+    "expo-router-layout/no-invalid-tabs-screen": "error",
+    "expo-router-dynamic-tab/no-unregistered-dynamic-tab-route": "error",
+    "rn-pressable/no-pressable-without-on-press": "error",
+    "expo-video-compat/no-expo-video-compat": "warn",
+    "rn-pressable-style/no-pressable-function-style": "error",
+    "expo-unused-config-plugin/no-unused-expo-plugin": "error",
+    "image-import/no-missing-image-import": "error",
+    "expo-splash-config/no-splash-screen-missing-image": "error",
+    "expo-notifications-assets/no-missing-notification-asset": "error",
+    "expo-config-value/no-invalid-expo-config-value": "error",
+    "expo-notifications-config/no-invalid-notification-config": "error",
+    "gifted-charts-linear-gradient/no-gifted-charts-missing-linear-gradient": "error",
+    "expo/no-dynamic-env-var": "error",
+    "expo/no-env-var-destructuring": "error",
+    "expo/use-dom-exports": "error",
+    "no-undef": "error",
+    "use-isnan": "error",
+    "valid-typeof": "error",
+    "no-dupe-keys": "error",
+    "no-duplicate-case": "error",
+    "no-dupe-class-members": "error",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-no-duplicate-props": "error",
+    "react/jsx-no-undef": "error"
+  },
+  "ignorePatterns": [
+    "metro.config.js",
+    "babel.config.js",
+    ".pnpmfile.cjs",
+    "output/**",
+    "supabase/**",
+    "src/components/ui/**",
+    ".skills/**"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "tailwind.config.js",
+        "**/tailwind.config.js"
+      ],
+      "env": {
+        "node": true
+      }
+    }
+  ],
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "__DEV__": "readonly",
+    "process": "readonly",
+    "global": "readonly",
+    "localStorage": "readonly",
+    "require": "readonly"
+  }
+}

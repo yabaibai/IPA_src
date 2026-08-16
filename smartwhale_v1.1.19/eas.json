@@ -1,0 +1,43 @@
+{
+  "cli": {
+    "version": ">= 5.0.0",
+    "appVersionSource": "local"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "android": {
+        "buildType": "apk",
+        "credentialsSource": "local",
+        "gradleCommand": ":app:assembleRelease -PreactNativeArchitectures=arm64-v8a"
+      },
+      "env": {
+        "SENTRY_DISABLE_AUTO_UPLOAD": "true",
+        "EAS_BUILD_NO_EXPO_GO_WARNING": "true",
+        "npm_config_legacy_peer_deps": "true",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://base.smartwhale.net",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJyb2xlIjogImFub24iLCAiaXNzIjogInN1cGFiYXNlIiwgImlhdCI6IDE3ODY1MDQxODgsICJleHAiOiAyMTAxODY0MTg4LCAiYXVkIjogImF1dGhlbnRpY2F0ZWQifQ._n3DuPxOxE_zFyTYuv678L6ypBEZbe9lwomFTeJZVi8"
+      }
+    },
+    "production": {
+      "android": {
+        "buildType": "apk",
+        "credentialsSource": "local",
+        "gradleCommand": ":app:assembleRelease -PreactNativeArchitectures=arm64-v8a"
+      },
+      "env": {
+        "SENTRY_DISABLE_AUTO_UPLOAD": "true",
+        "EAS_BUILD_NO_EXPO_GO_WARNING": "true",
+        "npm_config_legacy_peer_deps": "true",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://base.smartwhale.net",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJyb2xlIjogImFub24iLCAiaXNzIjogInN1cGFiYXNlIiwgImlhdCI6IDE3ODY1MDQxODgsICJleHAiOiAyMTAxODY0MTg4LCAiYXVkIjogImF1dGhlbnRpY2F0ZWQifQ._n3DuPxOxE_zFyTYuv678L6ypBEZbe9lwomFTeJZVi8"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
