@@ -27,15 +27,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 仅取出 iOS 源码包内目录(若直接放仓库根则用 ./ )
-      - name: Extract iOS source
+      # iOS 源码已解包入仓, 直接定位源码目录
+      - name: Set source dir
         run: |
-          if [ -f smartwhale_v1.1.19_src_ios_20260816.tar.gz ]; then
-            tar -xzf smartwhale_v1.1.19_src_ios_20260816.tar.gz
-            echo "SRC_DIR=smartwhale_v1.1.19" >> "$GITHUB_ENV"
-          else
-            echo "SRC_DIR=." >> "$GITHUB_ENV"
-          fi
+          echo "SRC_DIR=smartwhale_v1.1.19" >> "$GITHUB_ENV"
 
       - name: Setup Node
         uses: actions/setup-node@v4
