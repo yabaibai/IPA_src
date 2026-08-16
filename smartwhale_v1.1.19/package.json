@@ -125,8 +125,7 @@
     },
     "patchedDependencies": {
       "expo@55.0.6": "patches/expo@55.0.6.patch",
-      "@shopify/react-native-skia@2.4.18": "patches/@shopify__react-native-skia@2.4.18.patch",
-      "miaoda-expo-devkit@0.1.1-beta.96": "patches/miaoda-expo-devkit@0.1.1-beta.96.patch"
+      "@shopify/react-native-skia@2.4.18": "patches/@shopify__react-native-skia@2.4.18.patch"
     }
   }
 }

@@ -51,13 +51,31 @@ jobs:
           pnpm install --no-frozen-lockfile
           npm install -g expo-cli eas-cli
 
-      - name: Expo prebuild (unsigned, offline, no login)
+      - name: Expo prebuild (unsigned, offline, no login, use local expo)
         working-directory: ${{ env.SRC_DIR }}
         env:
           EXPO_NO_LOGIN: "1"
           CI: "1"
         run: |
-          npx expo prebuild --platform ios --no-install --non-interactive
+          pnpm exec expo prebuild --platform ios --no-install --non-interactive
+
+      - name: Strip Sentry dSYM upload phase (CI does not need it)
+        working-directory: ${{ env.SRC_DIR }}
+        run: |
+          python3 - <<'PY'
+import os, re
+pbx = "ios/SmartWhale.xcodeproj/project.pbxproj"
+if os.path.exists(pbx):
+    s = open(pbx, encoding="utf-8").read()
+    # 清空 Upload Debug Symbols to Sentry 的 shellScript
+    s2 = re.sub(r'(shellScript = ")(?:[^"]*?Upload Debug Symbols to Sentry[^"]*?)(";)', r'\1\2', s, flags=re.S)
+    # 更稳妥: 把含 Sentry 的 shellScript 内容置空
+    s2 = re.sub(r'shellScript = "[^"]*Upload Debug Symbols to Sentry[^"]*";', 'shellScript = "";', s2)
+    open(pbx, "w", encoding="utf-8").write(s2)
+    print("stripped Sentry phase")
+else:
+    print("no pbxproj, skip")
+PY
 
       - name: xcodebuild archive (CODE_SIGNING_ALLOWED=NO -> unsigned)
         working-directory: ${{ env.SRC_DIR }}
@@ -66,9 +84,11 @@ jobs:
             -scheme SmartWhale \
             -configuration Release \
             -archivePath build/SmartWhale.xcarchive \
-            CODE_SIGN_IDENTITY="" \
+            CODE_SIGN_IDENTITY="-" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
+            ARCHS=arm64 \
+            -destination 'generic/platform=iOS' \
             archive
 
       - name: Export unsigned IPA
